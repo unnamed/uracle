@@ -213,6 +213,11 @@ public final class ModelSerializer implements JsonResourceSerializer<Model>, Jso
             writer.name("shade").value(shade);
         }
 
+        int lightEmission = element.lightEmission();
+        if (lightEmission != 0) {
+            writer.name("light_emission").value(lightEmission);
+        }
+
         // faces
         writer.name("faces").beginObject();
         for (Map.Entry<CubeFace, ElementFace> entry : element.faces().entrySet()) {
@@ -319,6 +324,7 @@ public final class ModelSerializer implements JsonResourceSerializer<Model>, Jso
                 .to(GsonUtil.readVector3Float(objectNode.get("to")))
                 .rotation(rotation)
                 .shade(GsonUtil.getBoolean(objectNode, "shade", Element.DEFAULT_SHADE))
+                .lightEmission(GsonUtil.getInt(objectNode, "light_emission", 0))
                 .faces(faces)
                 .build();
     }
